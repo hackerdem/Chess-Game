@@ -1,4 +1,4 @@
-import tkinter,copy,sys,configparser
+from tkinter import *
 from configuration import *
 import model
 
