@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from configuration import *
-import controller,copy,sys,configparser
+import controller
 
 
 class View():
@@ -60,7 +60,7 @@ class View():
         
     def draw_board(self):
         current_color=BOARD_COLOR_2
-        for rw in range(NUMBER_OF_ROWS):
+        for row in range(NUMBER_OF_ROWS):
             current_color=self.get_alternate_color(current_color)
             for col in range(NUMBER_OF_COLUMNS):
                 x1,y1=self.get_x_y_coordinate(row,col)
@@ -89,18 +89,18 @@ class View():
         return (x,y)
     
 def main(controller):
-    root=Tk()
+    root = Tk()
     root.title("Chess")
-    View(root,controller)
+    View(controller,root)
     root.mainloop()
-        
+    
+    
 def init_new_game():
-    game_controller=controller.Controller()
+    game_controller = controller.Controller()
     main(game_controller)
-        
-if __name__=="__main__":
+    
+if __name__ == "__main__":
     init_new_game()
-            
             
             
             
