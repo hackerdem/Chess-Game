@@ -8,7 +8,19 @@ class Model(dict):
     fullmove_number=1
     history=[]
     def __init__(self):
-        pass
+            self.reset_to_initial_locations()
+    def reset_game_data(self):
+            captures_pieces={'white':[],'black':[]}
+            player_turn=None
+            halfmove_clock=0
+            fullmove_number=1
+            history=[]
+    def reset_to_initial_locations(self):
+        self.clear()
+        for position,value in START_PIECES_POSITION.items():
+            self[position]=piece.create_piece(value)
+            self[position].keep_reference(self)
+        self.player_turn='white'
     def get_piece_at(self,position):
         return self.get(position)
     

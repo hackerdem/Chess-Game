@@ -1,6 +1,9 @@
 from configuration import *
 import exceptions
 
+def get_numeric_notation(rowcol):
+    row,col=rowcol
+    return int(col)-1, X_AXIS_LABELS.index(row)
 
 def create_piece(piece,color='white'):
     if isinstance(piece,str):
@@ -8,7 +11,7 @@ def create_piece(piece,color='white'):
             color="white" if piece.isupper() else "black"
             piece=SHORT_NAME[piece.upper()]
         piece=piece.capitalize()
-        if piece in SHORT_NAME.values:
+        if piece in SHORT_NAME.values():
             return eval("{classname}(color)".format(classname=piece))
     raise exceptions.ChessError("invalid piece name: '{}'".format(piece))
 class Piece():

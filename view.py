@@ -57,7 +57,18 @@ class View():
         canvas_height=NUMBER_OF_ROWS*DIMENSION_OF_EACH_SQUARE
         self.canvas=Canvas(self.parent,width=canvas_width,height=canvas_height)
         self.canvas.pack(padx=8,pady=8)
-        
+    def draw_single_piece(self,position,piece):
+        x,y=self.controller.get_numeric_notation(position)
+        if piece:
+            filename="../pieces_image/{}_{}.png".format(piece.name.lower(),piece.color)
+            if filename not in self.images:
+                self.images[filename]=PhotoImage(file=filename)
+            x0,y0=self.calculate_piece_coordinate(x,y)
+            self.canvas.create_image(x0,y0,image=self.images[filename],tags=("occupied"),anchor="c")
+    def draw_all_pieces(self):
+        self.canvas.delete("occupied")
+        for position,piece in self.controller.get_all_pieces_on_chess_board():
+            self.draw_single_piece(position, piece)
     def draw_board(self):
         current_color=BOARD_COLOR_2
         for row in range(NUMBER_OF_ROWS):
@@ -74,20 +85,34 @@ class View():
         else:
             next_color=self.board_color_2
         return next_color
+    
     def on_square_clicked(self,event):
         clicked_row,clicked_column=self.get_clicked_row_column(event)
         print("you clicked on",clicked_row,clicked_column)
-        
+    
+    def calculate_piece_coordinate(self,row,col):
+        x0=(col * DIMENSION_OF_EACH_SQUARE) + \
+            int( DIMENSION_OF_EACH_SQUARE/2)
+        y0=((7-row)* DIMENSION_OF_EACH_SQUARE)+ \
+            int(DIMENSION_OF_EACH_SQUARE/2)
+        return (x0,y0)
+    
     def get_clicked_row_column(self,event):
         col_size=row_size=DIMENSION_OF_EACH_SQUARE
         clicked_column=event.x//col_size
         clicked_row=7-(event.y//row_size)
         return(clicked_row,clicked_column)
+    
     def get_x_y_coordinate(self,row,col):
         x=(col * DIMENSION_OF_EACH_SQUARE)
         y=((7-row) * DIMENSION_OF_EACH_SQUARE)
         return (x,y)
-    
+    def start_new_game(self):
+        self.controller.reset_game_data()
+        self.controller.reset_to_initial_locations()
+        self.draw_all_pieces()
+        self.info_label.config(text="  Whote to start the Game")
+        
 def main(controller):
     root = Tk()
     root.title("Chess")
