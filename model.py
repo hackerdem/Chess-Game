@@ -31,3 +31,14 @@ class Model(dict):
     def is_on_board(self,rowcol):
         row,col=rowcol
         return 0 <= row <=7 and 0 <= col <=7
+    
+    def all_positions_occupied_by_color(self,color):
+        result=[]
+        for position in self.keys():
+            piece=self.get_piece_at(position)
+            if piece.color==color:
+                result.append(position)
+        return result
+    def all_occupied_positions(self):
+        return all_positions_occupied_by_color('white')+self.all_positions_occupied_by_color(
+                                                                                            'black')
