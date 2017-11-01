@@ -5,6 +5,7 @@ import controller
 
 
 class View():
+    images={}
     board_color_1=BOARD_COLOR_1
     board_color_2=BOARD_COLOR_2
     def __init__(self,controller,parent):
@@ -12,6 +13,7 @@ class View():
         self.parent=parent
         self.create_chess_base()
         self.canvas.bind("<Button-1>",self.on_square_clicked)
+        self.start_new_game()
     
     def create_chess_base(self):
         self.create_top_menu()
@@ -60,7 +62,7 @@ class View():
     def draw_single_piece(self,position,piece):
         x,y=self.controller.get_numeric_notation(position)
         if piece:
-            filename="../pieces_image/{}_{}.png".format(piece.name.lower(),piece.color)
+            filename="pieces_image/{}_{}.png".format(piece.name.lower(),piece.color)
             if filename not in self.images:
                 self.images[filename]=PhotoImage(file=filename)
             x0,y0=self.calculate_piece_coordinate(x,y)

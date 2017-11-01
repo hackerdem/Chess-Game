@@ -1,6 +1,6 @@
 from tkinter import *
 from configuration import *
-import model
+import model,piece
 
 class Controller():
 
