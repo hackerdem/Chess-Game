@@ -50,14 +50,41 @@ class Piece():
     def keep_reference(self,model):
         self.model=model
 class King(Piece):
-    pass
+    directions=ORTHGONAL_POSITIONS + DIAGONAL_POSITIONS
+    max_distance=1
+    def moves_available(self,current_position):
+        return super().moves_available(current_position,self.directions,self.max_distance)
 class Queen(Piece):
-    pass
+    directions=ORTHGONAL_POSITIONS + DIAGONAL_POSITIONS
+    max_distance=8
+    def moves_available(self,current_position):
+        return super(Queen,self).moves_available(current_position,self.directions,self.max_distance)
+
 class Rook(Piece):
-    pass
+    
+    directions=ORTHGONAL_POSITIONS 
+    max_distance=8
+    def moves_available(self,current_position):
+        return super(Rook,self).moves_available(current_position,self.directions,self.max_distance)
+
 class Bishop(Piece):
-    pass
+  
+    directions=DIAGONAL_POSITIONS
+    max_distance=8
+    def moves_available(self,current_position):
+        return super(Bishop,self).moves_available(current_position,self.directions,self.max_distance)
+
 class Knight(Piece):
-    pass
+    def moves_available(self,current_position):
+        model=self.model
+        allowed_moves=[]
+        start_position=get_numeric_notation(current_position.upper())
+        piece=model.get(pos.upper())
+        for x,y in KNIGHT_POSITIONS:
+            destination=start_position[0]+ x, start_position[1]+y
+            if (model.get_alphanumeric_position(destination) not in model.all_positions_occupied_by_color(piece.color)):
+                allowed_moves.append(desitnation)
+        allowed_moves=filter(model.is_on_board,allowed_moves)
+        return map(model.get_alphanumeric_position,allowed_moves)
 class Pawn(Piece):
     pass
