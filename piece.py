@@ -87,4 +87,31 @@ class Knight(Piece):
         allowed_moves=filter(model.is_on_board,allowed_moves)
         return map(model.get_alphanumeric_position,allowed_moves)
 class Pawn(Piece):
-    pass
+    def moves_available(self,current_position):
+        model=self.model
+        piece=self
+        if self.color=='white':
+            initial_position,direction,enemy=1,1,'black'
+        else:
+            initial_position,direction,enemy=6,-1,'white'
+            
+        allowed_moves=[]
+        #Moving
+        prohibited=model.all_occupied_positions()
+        start_position=get_numeric_notation(current_position())
+        forward=start_position[0]+direction,start_position[1]
+        if model.get_alphanumeric_position(forward) not in prohibited:
+            allowed_moves.append(forward)
+            if start_position[0]==initial_position:
+                #if pawn is in starting position allow double moves
+                double_forward=(forward[0]+direction,forward[1])
+                if model.get_alphanumeric_position(double_forward) not in prohibited:
+                    allowed_moves.append(double_forward)
+        #Attacking
+        for a in range(-1,2,2):
+            attack=start_position[0] + direction,start_position[1] + a
+            if model.get_alphanumeric_position(attack) in model.all_positions_occupied_by_color(enemy):
+                allowed_moves.append(attack)
+        allowed_moves=filter(model.is_on_board,allowed_moves)
+        return map(model.get_alphanumeric_position,allowed_moves)
+    

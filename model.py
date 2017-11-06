@@ -42,3 +42,23 @@ class Model(dict):
     def all_occupied_positions(self):
         return all_positions_occupied_by_color('white')+self.all_positions_occupied_by_color(
                                                                                             'black')
+    def get_all_available_moves(self,color):
+        result=[]
+        for position in self.keys():
+            piece=self.get_piece_at(position)
+            if piece and piece.color==color:
+                moves=piece.moves_available(position)
+                if moves:
+                    result.extend(moves)
+        return result
+    
+    def get_alphanumeric_position_of_king(self,color):
+        for position in self.keys():
+            this_piece=self.get_piece_at(position)
+            if isinstance(this_piece,piece.King) and this_piece.color==color:
+                return position
+    
+    def is_king_under_check(self,color):
+        position_of_king=self.get_alphanumeric_position_of_king(color)
+        opponent='black' if color=='white' else 'white'
+        return position_of_king in self.get_all_available_moves(opponent)
