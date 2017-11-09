@@ -90,7 +90,25 @@ class View():
     
     def on_square_clicked(self,event):
         clicked_row,clicked_column=self.get_clicked_row_column(event)
-        print("you clicked on",clicked_row,clicked_column)
+        position_of_click=self.controller.get_alphanumeric_position((clicked_row,clicked_column))
+        #on second click
+        if self.selected_piece_position:
+            self.shift(self.selected_piece_position,position_of_click)
+            self.selected_piece_position=None
+            self.update_highlight_list(position_of_click)
+            self.draw_board()
+            self.draw_all_pieces()
+            
+    def shift(self,start_pos,end_pos):
+        selected_piece=self.controller.get_piece_at(start_pos)
+        piece_at_destination=self.controller.get_piece_at(end_pos)
+        if not piece_at_destination or piece_at_destination.color !=selected_piece.color:
+            try:
+                self.controller.pre_move_validation(start_pos,end_pos)
+            except exceptions.ChessError as error:
+                self.info_label["text"]=error.__class__.__name__
+            else:
+                self.update_label(selected_piece,start_pos,end_pos)
     
     def calculate_piece_coordinate(self,row,col):
         x0=(col * DIMENSION_OF_EACH_SQUARE) + \
