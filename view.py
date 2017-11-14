@@ -5,9 +5,13 @@ import controller
 
 
 class View():
+    selected_piece_position=None
+    all_squares_to_be_highlighted=[]
     images={}
     board_color_1=BOARD_COLOR_1
     board_color_2=BOARD_COLOR_2
+    highlight_color=HIGHLIGHT_COLOR
+    
     def __init__(self,controller,parent):
         self.controller=controller
         self.parent=parent
@@ -78,8 +82,13 @@ class View():
             for col in range(NUMBER_OF_COLUMNS):
                 x1,y1=self.get_x_y_coordinate(row,col)
                 x2,y2=x1 + DIMENSION_OF_EACH_SQUARE,y1 + DIMENSION_OF_EACH_SQUARE
-                self.canvas.create_rectangle(x1,y1,x2,y2,fill=current_color)
-                current_color=self.get_alternate_color(current_color)
+                if (self.all_squares_to_be_highlighted and (row,col) in 
+                    self.all_squares_to_be_highlighted):
+                    self.canvas.create_rectangle(x1,y1,x2,y2,fill=HIGHLIGHT_COLOR)
+                else:
+                
+                    self.canvas.create_rectangle(x1,y1,x2,y2,fill=current_color)
+                    current_color=self.get_alternate_color(current_color)
                 
     def get_alternate_color(self,current_color):
         if current_color==self.board_color_2:
