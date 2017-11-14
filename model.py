@@ -41,7 +41,15 @@ class Model(dict):
         return result
     def all_occupied_positions(self):
         return all_positions_occupied_by_color('white')+self.all_positions_occupied_by_color(
-                                                                                            'black')
+                                                                                           'black')
+    
+    def move(self,start_pos,final_pos):
+        self[final_pos]=self.pop(start_pos,None)
+    def will_move_cause_check(self,start_position,end_position):
+        tmp=deepcopy(self)
+        tmp.move(start_position,end_position)
+        return tmp.is_king_under_check(self[start_position].color)
+    
     def get_all_available_moves(self,color):
         result=[]
         for position in self.keys():

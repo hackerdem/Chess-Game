@@ -40,8 +40,10 @@ class View():
         messagebox.showinfo("chess application for geniouses")
     def on_new_game_menu_clicked(self):
         pass
-    def on_preference_menu_clicked(self):pass
-    
+    def on_preference_menu_clicked(self):
+        self.show_preference_window()
+    def show_preference_window(self):
+        preferenceswindow.PreferencesWindow(self.parent)
     def create_file_menu(self):
         self.file_menu=Menu(self.menu_bar,tearoff=0)
         self.file_menu.add_command(label="New Game",command=self.on_new_game_menu_clicked)
@@ -108,6 +110,18 @@ class View():
             self.draw_board()
             self.draw_all_pieces()
             
+   
+    def update_highlight_list(self,position):
+        self.all_squares_to_be_highlighted=None
+        try:
+            piece=self.controller.get_piece_at(position)
+        except:
+            piece=None
+        if piece and (piece.color==self.controller.player_turn()):
+            self.selected_piece_position=position
+            self.all_squares_to_be_highlighted=list(map(
+            self.controller.get_numeric_notation,
+            self.controller.get_piece_at(position).moves_available(position)))
     def shift(self,start_pos,end_pos):
         selected_piece=self.controller.get_piece_at(start_pos)
         piece_at_destination=self.controller.get_piece_at(end_pos)
