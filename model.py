@@ -9,6 +9,22 @@ class Model(dict):
     history=[]
     def __init__(self):
             self.reset_to_initial_locations()
+    
+    def update_game_statistics(self,piece,dest,start_pos,end_pos):
+        if piece.color=='black':
+            self.fullmove_number+=1
+        self.halfmove_clock+=1
+        abbr=piece.name
+        if abbr=='pawn':
+            abbr=''
+            self.halfmove_clock=0
+        if dest is None:
+            move_text=abbr+'x'+end_pos.lower()
+        else:
+            move_text=abbr+'x'+end_pos.lower()
+    def change_player_turn(self,color):
+        enemy=('white' if color=='black' else 'black')
+        self.player_turn=enemy
     def reset_game_data(self):
             captures_pieces={'white':[],'black':[]}
             player_turn=None

@@ -39,7 +39,7 @@ class View():
     def on_about_menu_clicked(self):
         messagebox.showinfo("chess application for geniouses")
     def on_new_game_menu_clicked(self):
-        pass
+        self.start_new_game()
     def on_preference_menu_clicked(self):
         self.show_preference_window()
     def show_preference_window(self):
@@ -132,7 +132,10 @@ class View():
                 self.info_label["text"]=error.__class__.__name__
             else:
                 self.update_label(selected_piece,start_pos,end_pos)
-    
+    def update_label(self,piece,start_pos,end_pos):
+        turn=('white' if piece.color=='black' else 'black')
+        self.info_label["text"]=''+piece.color.capitalize()+"  :  "+\
+            start_pos+end_pos+'   '+turn.capitalize()+'\'s turn'
     def calculate_piece_coordinate(self,row,col):
         x0=(col * DIMENSION_OF_EACH_SQUARE) + \
             int( DIMENSION_OF_EACH_SQUARE/2)
@@ -155,17 +158,21 @@ class View():
         self.controller.reset_to_initial_locations()
         self.draw_all_pieces()
         self.info_label.config(text="  Whote to start the Game")
+    def reset_board_state(self):
+        self.selected_piece_position=None
+        self.all_squares_to_be_highlighted=[]
+        self.omages={}
         
-def main(controller):
+def main(model):
     root = Tk()
     root.title("Chess")
-    View(controller,root)
+    View(root,model)
     root.mainloop()
     
     
 def init_new_game():
-    game_controller = controller.Controller()
-    main(game_controller)
+    initial_game_data = controller.Controller()
+    main(initial_game_data)
     
 if __name__ == "__main__":
     init_new_game()
