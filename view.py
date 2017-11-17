@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from configuration import *
 import controller
+import exceptions
 
 
 class View():
