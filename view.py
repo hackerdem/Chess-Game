@@ -12,7 +12,7 @@ class View():
     board_color_2=BOARD_COLOR_2
     highlight_color=HIGHLIGHT_COLOR
     
-    def __init__(self,controller,parent):
+    def __init__(self,parent,controller):
         self.controller=controller
         self.parent=parent
         self.create_chess_base()
@@ -106,9 +106,9 @@ class View():
         if self.selected_piece_position:
             self.shift(self.selected_piece_position,position_of_click)
             self.selected_piece_position=None
-            self.update_highlight_list(position_of_click)
-            self.draw_board()
-            self.draw_all_pieces()
+        self.update_highlight_list(position_of_click)
+        self.draw_board()
+        self.draw_all_pieces()
             
    
     def update_highlight_list(self,position):

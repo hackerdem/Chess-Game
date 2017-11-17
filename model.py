@@ -56,7 +56,7 @@ class Model(dict):
                 result.append(position)
         return result
     def all_occupied_positions(self):
-        return all_positions_occupied_by_color('white')+self.all_positions_occupied_by_color(
+        return self.all_positions_occupied_by_color('white')+self.all_positions_occupied_by_color(
                                                                                            'black')
     
     def move(self,start_pos,final_pos):

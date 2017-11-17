@@ -53,7 +53,7 @@ class Piece():
         model=self.model
         allowed_moves=[]
         piece=self
-        start_row,start_column=get_numeric_notation(current_position)
+        start_row,start_column=self.get_numeric_notation(current_position)
         for x,y in directions:
             collision=False
             for step in range(1,distance+1):
@@ -101,11 +101,11 @@ class Knight(Piece):
         model=self.model
         allowed_moves=[]
         start_position=get_numeric_notation(current_position.upper())
-        piece=model.get(pos.upper())
+        piece=model.get(current_position.upper())
         for x,y in KNIGHT_POSITIONS:
             destination=start_position[0]+ x, start_position[1]+y
             if (model.get_alphanumeric_position(destination) not in model.all_positions_occupied_by_color(piece.color)):
-                allowed_moves.append(desitnation)
+                allowed_moves.append(destination)
         allowed_moves=filter(model.is_on_board,allowed_moves)
         return map(model.get_alphanumeric_position,allowed_moves)
 class Pawn(Piece):
@@ -120,7 +120,7 @@ class Pawn(Piece):
         allowed_moves=[]
         #Moving
         prohibited=model.all_occupied_positions()
-        start_position=get_numeric_notation(current_position())
+        start_position=get_numeric_notation(current_position)
         forward=start_position[0]+direction,start_position[1]
         if model.get_alphanumeric_position(forward) not in prohibited:
             allowed_moves.append(forward)
