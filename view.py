@@ -3,6 +3,7 @@ from tkinter import messagebox
 from configuration import *
 import controller
 import exceptions
+import preferenceswindow
 
 
 class View():
@@ -37,6 +38,13 @@ class View():
         self.info_label=Label(self.bottom_frame,text="  White to start the game  ",fg=BOARD_COLOR_2)
         self.info_label.pack(side=RIGHT,padx=8,pady=5)
         self.bottom_frame.pack(fill="x",side="bottom")
+    
+    def reload_colors(self,color_1,color_2,highlight_color):
+        self.board_color_1=color_1
+        self.board_color_2=color_2
+        self.highlight_color=highlight_color
+        self.draw_board()
+        self.draw_all_pieces()
     def on_about_menu_clicked(self):
         messagebox.showinfo("chess application for geniouses")
     def on_new_game_menu_clicked(self):
@@ -44,7 +52,7 @@ class View():
     def on_preference_menu_clicked(self):
         self.show_preference_window()
     def show_preference_window(self):
-        preferenceswindow.PreferencesWindow(self.parent)
+        preferenceswindow.PreferencesWindow(self)
     def create_file_menu(self):
         self.file_menu=Menu(self.menu_bar,tearoff=0)
         self.file_menu.add_command(label="New Game",command=self.on_new_game_menu_clicked)

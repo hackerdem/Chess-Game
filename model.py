@@ -1,6 +1,8 @@
 import tkinter,copy,sys,configparser
+from copy import deepcopy
 from configuration import *
 import piece
+import exceptions
 class Model(dict):
     captured_pieces={'white':[],'black':[]}
     player_turn=None

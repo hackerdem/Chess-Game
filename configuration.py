@@ -1,9 +1,16 @@
+from configparser import ConfigParser
+
+config=ConfigParser()
+config.read('chess_options.ini')
+BOARD_COLOR_1=config.get('chess_colors','board_color_1',fallback='#DDB88C')
+BOARD_COLOR_2=config.get('chess_colors','board_color_2',fallback='#A66D4F')
+HIGHLIGHT_COLOR=config.get('chess_colors','highlight_color',fallback='#2EF70D')
+
+
 NUMBER_OF_ROWS=8
 NUMBER_OF_COLUMNS=8
 DIMENSION_OF_EACH_SQUARE=64
-BOARD_COLOR_1="#DDB88C"
-BOARD_COLOR_2="#A66D4F"
-HIGHLIGHT_COLOR="#2EF70D"
+
 
 X_AXIS_LABELS=('A','B','C','D','E','F','G','H')
 Y_AXIS_LABELS=(1,2,3,4,5,6,7,8)
